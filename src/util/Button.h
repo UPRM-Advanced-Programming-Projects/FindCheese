@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ofMain.h"
 
 class Button{
@@ -30,6 +32,8 @@ class Button{
             ofDrawRectangle(clickBox);
             ofSetColor(ofColor::black);
             font.drawString(text, clickBox.x + clickBox.width/2 - font.stringWidth(text)/2, clickBox.y + clickBox.height/2 + font.stringHeight(text)/2);
+            // clear the color
+            ofSetColor(ofColor::white);
         }
 
         void mousePressed(int x, int y){

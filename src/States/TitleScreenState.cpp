@@ -55,7 +55,7 @@ void TitleScreenState::mousePressed(int x, int y, int button){
 
     if (startButton->wasPressed()){
         setFinished(true);
-        setNextState(GAME);
+        setNextState(MAZE_SELECTION);
     }
 
     if (quitButton->wasPressed()){

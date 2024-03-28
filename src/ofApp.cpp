@@ -6,6 +6,7 @@ using namespace std;
 void ofApp::setup() {
     font.load("font.otf", 12);
     titleScreenState = new TitleScreenState();
+    mazeSelectionState = new MazeSelectionState();
     currentState = titleScreenState;
     ofSetFrameRate(60);
     background.load("background.jpg");
@@ -26,6 +27,15 @@ void ofApp::update() {
             currentState->setFinished(false);
             currentState->setNextState(UNKNOWN);
             switch (nextState) {
+
+            case TITLE_SCREEN:
+                currentState = titleScreenState;
+                break;
+
+            case MAZE_SELECTION:
+                currentState = mazeSelectionState;
+                break;
+
             default:
                 // Assume an error occurred or the game is finished
                 ofExit();

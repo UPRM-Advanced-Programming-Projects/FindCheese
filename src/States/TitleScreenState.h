@@ -14,7 +14,7 @@ class TitleScreenState : public State {
         ofTrueTypeFont font;
 
     public:
-        TitleScreenState() : State(){
+        TitleScreenState(){
             logo.load("logo.png");
             font.load("font.otf", 12);
             reset();

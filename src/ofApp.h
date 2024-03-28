@@ -3,12 +3,14 @@
 #include "ofMain.h"
 #include "State.h"
 #include "TitleScreenState.h"
+#include "MazeSelectionState.h"
 
 class ofApp : public ofBaseApp{
 
 	private:
 		State* currentState;
 		TitleScreenState* titleScreenState;
+		MazeSelectionState* mazeSelectionState;
 		ofTrueTypeFont font;
 		ofImage background;
 		ofSoundPlayer music;

@@ -6,6 +6,7 @@
 enum StateName {
     UNKNOWN,
     TITLE_SCREEN,
+    MAZE_SELECTION,
     GAME
 };
 
