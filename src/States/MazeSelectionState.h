@@ -8,6 +8,7 @@ class MazeSelectionState : public State {
         vector<ofImage> mazeImages;
         vector<ofRectangle> imageBorders;
         vector<Button*> buttons;
+        int selectedMaze = -1;
 
     public:
         MazeSelectionState(){
@@ -18,4 +19,5 @@ class MazeSelectionState : public State {
         void draw();
         void reset();
         void mousePressed(int x, int y, int button);
+        int getSelectedMaze(){return selectedMaze;};
 };

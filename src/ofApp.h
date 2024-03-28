@@ -4,6 +4,7 @@
 #include "State.h"
 #include "TitleScreenState.h"
 #include "MazeSelectionState.h"
+#include "MazeState.h"
 
 class ofApp : public ofBaseApp{
 
@@ -11,6 +12,7 @@ class ofApp : public ofBaseApp{
 		State* currentState;
 		TitleScreenState* titleScreenState;
 		MazeSelectionState* mazeSelectionState;
+		MazeState* mazeState;
 		ofTrueTypeFont font;
 		ofImage background;
 		ofSoundPlayer music;

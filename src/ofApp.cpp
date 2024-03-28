@@ -7,6 +7,7 @@ void ofApp::setup() {
     font.load("font.otf", 12);
     titleScreenState = new TitleScreenState();
     mazeSelectionState = new MazeSelectionState();
+    mazeState = new MazeState();
     currentState = titleScreenState;
     ofSetFrameRate(60);
     background.load("background.jpg");
@@ -36,6 +37,13 @@ void ofApp::update() {
                 currentState = mazeSelectionState;
                 break;
 
+            case GAME:
+                mazeState->setSelectedMaze(mazeSelectionState->getSelectedMaze());
+                mazeState->reset();
+                currentState = mazeState;
+                break;
+
+
             default:
                 // Assume an error occurred or the game is finished
                 ofExit();
@@ -64,8 +72,14 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-    if (currentState != nullptr)
+
+    if (key == OF_KEY_BACKSPACE)
+        currentState = titleScreenState;
+
+    else if (currentState != nullptr)
         currentState->keyPressed(key);
+
+
 }
 
 //--------------------------------------------------------------

@@ -1,6 +1,9 @@
 #include "MazeSelectionState.h"
 
 void MazeSelectionState::update(){
+    for (int i = 0; i < buttons.size(); i++){
+        buttons[i]->update();
+    }
 }
 
 void MazeSelectionState::draw(){
@@ -43,7 +46,7 @@ void MazeSelectionState::reset(){
             ofGetWidth()/3 + ofGetWidth()/3*(i/5),  
             100, 
             50, 
-            "Maze " + ofToString(i+1)
+            "Maze " + ofToString(i)
         ));
     }
 
@@ -55,5 +58,11 @@ void MazeSelectionState::reset(){
 void MazeSelectionState::mousePressed(int x, int y, int button){
     for (int i = 0; i < buttons.size(); i++){
         buttons[i]->mousePressed(x, y);
+
+        if (buttons[i]->wasPressed()){
+            selectedMaze = i;
+            this->setFinished(true);
+            this->setNextState(GAME);
+        }
     }
 }
