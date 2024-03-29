@@ -5,6 +5,8 @@
 #include "TitleScreenState.h"
 #include "MazeSelectionState.h"
 #include "MazeState.h"
+#include "Maze.h"
+#include "Button.h"
 
 class ofApp : public ofBaseApp{
 
@@ -15,7 +17,11 @@ class ofApp : public ofBaseApp{
 		MazeState* mazeState;
 		ofTrueTypeFont font;
 		ofImage background;
+		Button* musicButton;
+		ofImage musicIcon;
+		ofImage muteIcon;
 		ofSoundPlayer music;
+		vector<Maze> mazes;
 
 	public:
 		void setup();

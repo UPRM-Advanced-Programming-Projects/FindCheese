@@ -8,6 +8,7 @@ class Button{
         ofRectangle clickBox;   
         ofTrueTypeFont font;
         string text;
+        ofImage image;
         ofColor color;
         const int CLICK_DURATION = 1;
         int clickCount = 0;
@@ -21,6 +22,11 @@ class Button{
             this->color = color;
         }
 
+        Button(int centerX, int centerY, int width, int height, ofImage image){
+            this->clickBox = ofRectangle(centerX - width/2, centerY - height/2, width, height);
+            this->image = image;
+        }
+
         void update(){
             if (clickCount > 0){
                 clickCount--;
@@ -28,6 +34,15 @@ class Button{
         }
 
         void draw(){
+
+            // Draw the image if it exists
+            if (this->image.isAllocated()){
+                this->image.draw(clickBox);
+                return;
+            }
+
+            // Draw the button with the text
+            ofFill();
             ofSetColor(color);
             ofDrawRectangle(clickBox);
             ofSetColor(ofColor::black);
@@ -44,6 +59,10 @@ class Button{
 
         bool wasPressed(){
             return clickCount > 0;
+        }
+
+        void setImage(ofImage image){
+            this->image = image;
         }
 
         // Constructor

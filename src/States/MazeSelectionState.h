@@ -5,9 +5,8 @@
 class MazeSelectionState : public State {
     private:
         ofTrueTypeFont font;
-        vector<ofImage> mazeImages;
-        vector<ofRectangle> imageBorders;
         vector<Button*> buttons;
+        vector<Button*> imageButtons;
         int selectedMaze = -1;
 
     public:

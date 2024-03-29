@@ -3,6 +3,7 @@
 void MazeSelectionState::update(){
     for (int i = 0; i < buttons.size(); i++){
         buttons[i]->update();
+        imageButtons[i]->update();
     }
 }
 
@@ -14,10 +15,7 @@ void MazeSelectionState::draw(){
 
     for (int i = 0; i < buttons.size(); i++){
         buttons[i]->draw();
-    }
-
-    for (int i = 0; i < mazeImages.size(); i++){
-        mazeImages[i].draw(imageBorders[i]);
+        imageButtons[i]->draw();
     }
 
 }
@@ -30,16 +28,6 @@ void MazeSelectionState::reset(){
 
     // Create 10 buttons and 10 images
     for (int i = 0; i < 10; i++){
-        mazeImages.push_back(ofImage());
-        //mazeImages[i].load("mazes/maze" + ofToString(i+1) + ".jpg");
-        mazeImages[i] = defaultImage;
-
-        imageBorders.push_back(ofRectangle(
-            ofGetWidth()/2 +(ofGetWidth()/5 * ((i%5)-2))-75, 
-            ofGetWidth()/3 + ofGetWidth()/3*(i/5)-225,  
-            150, 
-            150
-        ));
 
         buttons.push_back(new Button(
             ofGetWidth()/2 +(ofGetWidth()/5 * ((i%5)-2)), 
@@ -47,6 +35,14 @@ void MazeSelectionState::reset(){
             100, 
             50, 
             "Maze " + ofToString(i)
+        ));
+
+        imageButtons.push_back(new Button(
+            ofGetWidth()/2 +(ofGetWidth()/5 * ((i%5)-2)), 
+            ofGetWidth()/3 + ofGetWidth()/3*(i/5)-115,  
+            150, 
+            150, 
+            defaultImage
         ));
     }
 
@@ -58,8 +54,9 @@ void MazeSelectionState::reset(){
 void MazeSelectionState::mousePressed(int x, int y, int button){
     for (int i = 0; i < buttons.size(); i++){
         buttons[i]->mousePressed(x, y);
+        imageButtons[i]->mousePressed(x, y);
 
-        if (buttons[i]->wasPressed()){
+        if (buttons[i]->wasPressed() || imageButtons[i]->wasPressed()){
             selectedMaze = i;
             this->setFinished(true);
             this->setNextState(GAME);

@@ -5,9 +5,14 @@ using namespace std;
 //--------------------------------------------------------------
 void ofApp::setup() {
     font.load("font.otf", 12);
+
+    for (int i = 0; i < 10; i++) {
+        mazes.push_back(Maze("mazes/maze" + ofToString(i) + ".txt"));
+    }
+
     titleScreenState = new TitleScreenState();
     mazeSelectionState = new MazeSelectionState();
-    mazeState = new MazeState();
+    mazeState = new MazeState(mazes);
     currentState = titleScreenState;
     ofSetFrameRate(60);
     background.load("background.jpg");
@@ -15,6 +20,9 @@ void ofApp::setup() {
     music.load("music.wav");
     music.setLoop(true);
     music.play();
+    musicIcon.load("sound.png");
+    muteIcon.load("mute.png");
+    musicButton = new Button(ofGetWidth() - 50, 50, 50, 50, musicIcon);
 }
 
 //--------------------------------------------------------------
@@ -53,6 +61,7 @@ void ofApp::update() {
         }
         currentState->update();
     }
+    musicButton->update();
 }
 
 //--------------------------------------------------------------
@@ -67,6 +76,8 @@ void ofApp::draw() {
     // DEBUG: Display FPS at the top left corner
     ofSetColor(255, 255, 255);
     font.drawString("FPS: " + ofToString(ofGetFrameRate()), 10, 20);
+
+    musicButton->draw();
     
 }
 
@@ -104,6 +115,19 @@ void ofApp::mouseDragged(int x, int y, int button) {
 void ofApp::mousePressed(int x, int y, int button) {
     if (currentState != nullptr)
         currentState->mousePressed(x, y, button);
+
+    musicButton->mousePressed(x, y);
+
+    if (musicButton->wasPressed()) {
+        if (music.isPlaying()){
+            music.stop();
+            musicButton->setImage(muteIcon);
+        }
+        else{
+            music.play();
+            musicButton->setImage(musicIcon);
+        }
+    }
 }
 
 //--------------------------------------------------------------
