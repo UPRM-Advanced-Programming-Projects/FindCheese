@@ -14,7 +14,18 @@ class Maze{
     };
 
     private:
+        // Maze data
         vector<vector<MazeTile>> maze;
+        int cellWidth;
+        int cellHeight;
+        int currentX;
+        int currentY;
+        int goalX;
+        int goalY;
+        int width;
+        int height;
+
+        // Images
         ofImage mazePreview;
         ofImage remy;
         ofImage remyCheese;

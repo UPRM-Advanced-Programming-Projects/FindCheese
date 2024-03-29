@@ -2,13 +2,13 @@
 
 Maze::Maze(string fileName){
 
+    // Load the images
     remy.load("remy.png");
     remyCheese.load("remy_win.png");
     remyDead.load("remy_lose.png");
     cheese.load("cheese.png");
 
     // Load the maze from the .txt file
-    // TODO: what happens if the file does not exist?
     ofBuffer buffer = ofBufferFromFile(fileName);
     if(buffer.size()){
         for(auto line : buffer.getLines()){                    
@@ -16,11 +16,33 @@ Maze::Maze(string fileName){
             // convert string to MazeTile
             vector<MazeTile> row;
             for(auto tile : ofSplitString(line, " ")){
-                row.push_back((MazeTile)ofToInt(tile));
+                MazeTile tileType = (MazeTile)ofToInt(tile);
+
+                // Handle special tiles
+                if (tileType == START){
+                    currentX = row.size();
+                    currentY = maze.size();
+                    tileType = FREE; // Start is a free tile
+                }
+                else if (tileType == GOAL){
+                    goalX = row.size();
+                    goalY = maze.size();
+                    tileType = FREE; // Goal is a free tile
+                }
+                row.push_back(tileType);
             }
 
             maze.push_back(row);
         }
+
+        // Set the maze width and height
+        width = ofGetWidth() * .75;
+        height = ofGetHeight() * .75;
+
+        // Set the cell width and height
+        cellWidth = width / maze[0].size();
+        cellHeight = height / maze.size();
+
     }
 
 }
@@ -29,8 +51,7 @@ void Maze::draw(){
     // Draw the maze
     int left = ofGetWidth() * .01;
     int top = ofGetHeight() * .1;
-    int width = ofGetWidth() * .75;
-    int height = ofGetHeight() * .75;
+
     ofSetRectMode(OF_RECTMODE_CORNER);
     ofSetLineWidth(3);
     ofSetColor(0);
@@ -43,26 +64,18 @@ void Maze::draw(){
     if (maze[0].size() == 0)
         ofLogError("Maze::draw") << "Maze row is empty";
 
-    int cellWidth = width / maze[0].size();
-    int cellHeight = height / maze.size();
-
     for(int i = 0; i < maze.size(); i++){
         for(int j = 0; j < maze[i].size(); j++){
             ofNoFill();
             switch(maze[i][j]){
                 case WALL:
                     ofFill();
-                case START:
                 case FREE:
                     ofSetColor(0);
                     break;
                 case VISITED:
                     ofSetColor(255, 0, 0);
                     break;
-                case GOAL:
-                    ofSetColor(0, 255, 0);
-                    break;
-
                 default:
                     ofSetColor(255, 255, 0);
             }
@@ -79,4 +92,13 @@ void Maze::draw(){
             }
         }
     }
+
+    // Draw remy at the current position
+    ofRectangle border(left + currentX * cellWidth, top + currentY * cellHeight, cellWidth, cellHeight);
+    ofSetColor(255,255,255);
+    remy.draw(border);
+
+    // Draw the goal
+    ofRectangle goalBorder(left + goalX * cellWidth, top + goalY * cellHeight, cellWidth, cellHeight);
+    cheese.draw(goalBorder);
 }
