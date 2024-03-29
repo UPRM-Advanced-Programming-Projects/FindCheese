@@ -11,7 +11,7 @@ void ofApp::setup() {
     }
 
     titleScreenState = new TitleScreenState();
-    mazeSelectionState = new MazeSelectionState();
+    mazeSelectionState = new MazeSelectionState(mazes);
     mazeState = new MazeState(mazes);
     currentState = titleScreenState;
     ofSetFrameRate(60);

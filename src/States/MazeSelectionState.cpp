@@ -23,8 +23,8 @@ void MazeSelectionState::draw(){
 void MazeSelectionState::reset(){
     buttons.clear();
     // TEMP: use default.jpg for all maze images
-    ofImage defaultImage;
-    defaultImage.load("default.jpg");
+    // ofImage defaultImage;
+    // defaultImage.load("default.jpg");
 
     // Create 10 buttons and 10 images
     for (int i = 0; i < 10; i++){
@@ -42,7 +42,7 @@ void MazeSelectionState::reset(){
             ofGetWidth()/3 + ofGetWidth()/3*(i/5)-115,  
             150, 
             150, 
-            defaultImage
+            mazes[i].getMazePreview()
         ));
     }
 

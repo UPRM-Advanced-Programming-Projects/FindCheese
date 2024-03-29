@@ -1,6 +1,7 @@
 #include "State.h"
 #include <vector>
 #include "Button.h"
+#include "Maze.h"
 
 class MazeSelectionState : public State {
     private:
@@ -8,10 +9,12 @@ class MazeSelectionState : public State {
         vector<Button*> buttons;
         vector<Button*> imageButtons;
         int selectedMaze = -1;
+        vector<Maze> mazes;
 
     public:
-        MazeSelectionState(){
+        MazeSelectionState(vector<Maze> mazes){
             font.load("font.otf", 24);
+            this->mazes = mazes;
             reset();
         }
         void update();
