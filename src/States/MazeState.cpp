@@ -2,18 +2,29 @@
 
 void MazeState::update() {
     //maze.update();
+    playButton->update();
+    forwardButton->update();
+    backwardButton->update();
+    resetButton->update();
 }
 
 void MazeState::draw() {
-    // TEMP: Draw the selected maze value in the middle of the screen
-    font.drawString("Maze " + ofToString(selectedMaze), ofGetWidth()/2 - font.stringWidth("Maze " + ofToString(selectedMaze))/2, ofGetHeight()/2);
     this->mazes[selectedMaze].draw();
+
+    // Draw the buttons
+    playButton->draw();
+    forwardButton->draw();
+    backwardButton->draw();
+    resetButton->draw();
+
 }
 
 void MazeState::reset() {
-
 }
 
 void MazeState::mousePressed(int x, int y, int button) {
-    //maze.mousePressed(x, y);
+    playButton->mousePressed(x, y);
+    forwardButton->mousePressed(x, y);
+    backwardButton->mousePressed(x, y);
+    resetButton->mousePressed(x, y);
 }

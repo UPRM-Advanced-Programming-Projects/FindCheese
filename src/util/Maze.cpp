@@ -7,49 +7,9 @@ Maze::Maze(string fileName){
     remyCheese.load("remy_win.png");
     remyDead.load("remy_lose.png");
     cheese.load("cheese.png");
+    this->fileName = fileName;
 
-    // Load the maze from the .txt file
-    ofBuffer buffer = ofBufferFromFile(fileName);
-    if(buffer.size()){
-        for(auto line : buffer.getLines()){                    
-
-            // convert String to MazeTile vector
-            vector<MazeTile> row;
-            for(auto tile : ofSplitString(line, " ")){
-                MazeTile tileType = (MazeTile)ofToInt(tile);
-
-                // Handle special tiles
-                if (tileType == START){
-                    currentX = row.size();
-                    currentY = maze.size();
-                    remyX = currentX;
-                    remyY = currentY;
-                    tileType = FREE; // Start is a free tile
-                }
-                else if (tileType == GOAL){
-                    goalX = row.size();
-                    goalY = maze.size();
-                    tileType = FREE; // Goal is a free tile
-                }
-                row.push_back(tileType);
-            }
-
-            maze.push_back(row);
-        }
-
-        // Set the maze border
-        border = ofRectangle(
-            ofGetWidth() * .01, 
-            ofGetHeight() * .1, 
-            ofGetWidth() * .75, 
-            ofGetHeight() * .75
-        );
-
-        // Set the cell width and height
-        cellWidth = border.getWidth() / maze[0].size();
-        cellHeight = border.getHeight() / maze.size();
-    }
-
+    reset();
 }
 
 void Maze::draw(){
@@ -151,4 +111,48 @@ ofImage Maze::getMazePreview(){
     }
     preview.update();
     return preview;
+}
+
+void Maze::reset(){
+    // Load the maze from the .txt file
+    ofBuffer buffer = ofBufferFromFile(fileName);
+    if(buffer.size()){
+        for(auto line : buffer.getLines()){                    
+
+            // convert String to MazeTile vector
+            vector<MazeTile> row;
+            for(auto tile : ofSplitString(line, " ")){
+                MazeTile tileType = (MazeTile)ofToInt(tile);
+
+                // Handle special tiles
+                if (tileType == START){
+                    currentX = row.size();
+                    currentY = maze.size();
+                    remyX = currentX;
+                    remyY = currentY;
+                    tileType = FREE; // Start is a free tile
+                }
+                else if (tileType == GOAL){
+                    goalX = row.size();
+                    goalY = maze.size();
+                    tileType = FREE; // Goal is a free tile
+                }
+                row.push_back(tileType);
+            }
+
+            maze.push_back(row);
+        }
+
+        // Set the maze border
+        border = ofRectangle(
+            ofGetWidth() * .01, 
+            ofGetHeight() * .1, 
+            ofGetWidth() * .75, 
+            ofGetHeight() * .75
+        );
+
+        // Set the cell width and height
+        cellWidth = border.getWidth() / maze[0].size();
+        cellHeight = border.getHeight() / maze.size();
+    }
 }

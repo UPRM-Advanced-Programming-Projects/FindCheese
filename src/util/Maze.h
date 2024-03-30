@@ -17,10 +17,11 @@ class Maze{
         // Maze data
         vector<vector<MazeTile>> maze;
         ofRectangle border;
-        int cellWidth, cellHeight;
+        double cellWidth, cellHeight;
         int currentX, currentY;
         int remyX, remyY;
         int goalX, goalY;
+        string fileName;
 
         // Images
         ofImage remy;
@@ -33,4 +34,6 @@ class Maze{
         void draw();
         vector<vector<MazeTile>> getMaze() { return maze; }
         ofImage getMazePreview();
+        ofRectangle getBorder() { return border; }
+        void reset();
 };
