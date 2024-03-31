@@ -21,10 +21,10 @@ bool DFSSolution::solveHelper(
 
     // Create a vector to store the possible moves
     vector<pair<int, int>> moves = {
-        make_pair(0, -1),   // Up
         make_pair(0, 1),    // Down
-        make_pair(-1, 0),    // Left
-        make_pair(1, 0)    // Right
+        make_pair(1, 0),    // Right
+        make_pair(-1, 0),   // Left
+        make_pair(0, -1)    // Up
     };
 
     // Add the starting cell to the queue
