@@ -6,6 +6,7 @@ using namespace std;
 void ofApp::setup() {
     font.load("font.otf", 12);
 
+    // Create all the mazes
     for (int i = 0; i < 10; i++) {
         mazes.push_back(Maze("mazes/maze" + ofToString(i) + ".txt"));
     }
@@ -16,12 +17,12 @@ void ofApp::setup() {
     currentState = titleScreenState;
     ofSetFrameRate(60);
     background.load("background.jpg");
+    musicIcon.load("sound.png");
+    muteIcon.load("mute.png");
 
     music.load("music.wav");
     music.setLoop(true);
     music.play();
-    musicIcon.load("sound.png");
-    muteIcon.load("mute.png");
     musicButton = new Button(ofGetWidth() - 50, 50, 50, 50, musicIcon);
 }
 
@@ -33,8 +34,7 @@ void ofApp::update() {
             StateName nextState = currentState->getNextState();
 
             // Reset the finished and next state variables
-            currentState->setFinished(false);
-            currentState->setNextState(UNKNOWN);
+            currentState->reset();
             switch (nextState) {
 
             case TITLE_SCREEN:
@@ -46,6 +46,8 @@ void ofApp::update() {
                 break;
 
             case GAME:
+                // Grab the selected maze from the maze selection state
+                // and set it in the maze state
                 mazeState->setSelectedMaze(mazeSelectionState->getSelectedMaze());
                 mazeState->reset();
                 currentState = mazeState;

@@ -7,9 +7,6 @@ bool DFSSolution::solveHelper(
     vector<pair<int, int>> &solutionPath,
     vector<pair<int, int>> &pathTaken
 ) {
-
-    // TODO: populate solutionPath
-
     // Create a stack to store the coordinates of the cells to visit
     stack<pair<int, int>> toVisit;
 

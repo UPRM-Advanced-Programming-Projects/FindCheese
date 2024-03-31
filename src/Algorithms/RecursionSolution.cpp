@@ -7,6 +7,8 @@ bool RecursionSolution::solveHelper(
     vector<pair<int, int>> &solutionPath,
     vector<pair<int, int>> &pathTaken
 ) {
+
+    // Push the current cell to the path taken
     pathTaken.push_back(make_pair(x, y));
     solutionPath.push_back(make_pair(x, y));
 

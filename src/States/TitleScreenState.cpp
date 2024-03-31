@@ -23,6 +23,9 @@ void TitleScreenState::draw(){
 }
 
 void TitleScreenState::reset(){
+
+    State::reset();
+
     count = 0;
     amplitude = 10;
     divisor = 50;

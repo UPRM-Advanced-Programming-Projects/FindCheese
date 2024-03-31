@@ -81,7 +81,7 @@ void Maze::draw(){
 
 }
 
-ofImage Maze::getMazePreview(){
+ofImage Maze::generateMazePreview(){
     ofImage preview;
     preview.allocate(maze[0].size()*50, maze.size()*50, OF_IMAGE_COLOR);
     for(int i = 0; i < maze.size(); i++){

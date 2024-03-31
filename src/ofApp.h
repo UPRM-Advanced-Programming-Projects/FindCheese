@@ -11,16 +11,22 @@
 class ofApp : public ofBaseApp{
 
 	private:
+
+		// States
 		State* currentState;
 		TitleScreenState* titleScreenState;
 		MazeSelectionState* mazeSelectionState;
 		MazeState* mazeState;
+
+		// Openframeworks variables
 		ofTrueTypeFont font;
 		ofImage background;
 		Button* musicButton;
 		ofImage musicIcon;
 		ofImage muteIcon;
 		ofSoundPlayer music;
+
+		
 		vector<Maze> mazes;
 
 	public:

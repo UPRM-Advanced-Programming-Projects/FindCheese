@@ -22,7 +22,10 @@ public:
     // Required functions
     virtual void update() = 0;
     virtual void draw() = 0;
-    virtual void reset() = 0; // This is called when the state is reset
+    virtual void reset(){
+        finished = false;
+        nextState = UNKNOWN;
+    }
 
     // Optional functions
     virtual void keyPressed(int key){};

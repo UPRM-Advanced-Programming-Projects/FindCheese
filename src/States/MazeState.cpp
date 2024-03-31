@@ -91,6 +91,12 @@ MazeState::MazeState(vector<Maze> mazes){
     mazeAlgorithmNames.push_back("DFS");
     mazeAlgorithmNames.push_back("BFS");
 
+    // If you want to add more solutions, you can do so by 
+    // adding them to the solutions vector and adding their name
+    // to the mazeAlgorithmNames vector. Selecting the solution
+    // is done by incrementing or decrementing the solutionIndex
+    // and resetting the maze
+
     reset();
 }
 
@@ -197,6 +203,9 @@ void MazeState::draw() {
 }
 
 void MazeState::reset() {
+
+    State::reset();
+
     pathIndex = 0;
     finishedVisualization = false;
     autoPlay = false;

@@ -7,9 +7,6 @@ bool BFSSolution::solveHelper(
     vector<pair<int, int>> &solutionPath,
     vector<pair<int, int>> &pathTaken
 ) {
-
-    // TODO: populate solutionPath
-
     // Create a queue to store the coordinates of the cells to visit
     queue<pair<int, int>> toVisit;
 

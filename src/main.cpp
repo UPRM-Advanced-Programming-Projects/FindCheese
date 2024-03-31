@@ -9,18 +9,5 @@ int main( ){
 	// this kicks off the running of my app
 	// can be OF_WINDOW or OF_FULLSCREEN
 	// pass in width and height too:
-	ofRunApp( new ofApp());
-
-	/*
-		Ideas
-		* Make a button selection screen for different algorithms
-		*    - Recursive
-		*    - DFS
-		*    - BFS 
-		Make each maze algorithm a class that contains a method to generate the maze
-		*    This method populates a vector with all the points in the maze that were visited
-		*        This way, we can "step through" the maze solving process
-		* 
-	*/
-
+	ofRunApp( new ofApp());	
 }
