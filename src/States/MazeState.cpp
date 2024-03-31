@@ -2,7 +2,8 @@
 
 MazeState::MazeState(vector<Maze> mazes){
     this->mazes = mazes;
-    font.load("font.otf", 24);
+    uiFont.load("font.otf", 18);
+    resultFont.load("font.otf", 24);
 
     ofRectangle border = this->mazes[0].getBorder();
 
@@ -44,6 +45,22 @@ MazeState::MazeState(vector<Maze> mazes){
         ofImage("reset.png")
     );
 
+    this->nextSolutionButton = new Button(
+        mazes[0].getBorder().getRight() + 3*(buttonWidth/2 + 20),
+        mazes[0].getBorder().getTop() + buttonHeight + 50,
+        buttonWidth,
+        buttonHeight,
+        ofImage("forward.png")
+    );
+
+    this->previousSolutionButton = new Button(
+        mazes[0].getBorder().getRight() + buttonWidth/2 + 30,
+        mazes[0].getBorder().getTop() + buttonHeight + 50,
+        buttonWidth,
+        buttonHeight,
+        ofImage("backward.png")
+    );
+
     // Create the solutions
     // NOTE: The order that the solutions are added here will be the order
     // that they will be represented as internally
@@ -51,6 +68,10 @@ MazeState::MazeState(vector<Maze> mazes){
     solutions.push_back(new RecursionSolution());
     solutions.push_back(new DFSSolution());
     solutions.push_back(new BFSSolution());
+
+    mazeAlgorithmNames.push_back("Recursion");
+    mazeAlgorithmNames.push_back("DFS");
+    mazeAlgorithmNames.push_back("BFS");
 
     reset();
 }
@@ -61,6 +82,8 @@ void MazeState::update() {
     forwardButton->update();
     backwardButton->update();
     resetButton->update();
+    nextSolutionButton->update();
+    previousSolutionButton->update();
 }
 
 void MazeState::draw() {
@@ -71,6 +94,21 @@ void MazeState::draw() {
     forwardButton->draw();
     backwardButton->draw();
     resetButton->draw();
+    nextSolutionButton->draw();
+    previousSolutionButton->draw();
+
+
+    // Draw the solution name centered above both the next/previous solution buttons
+    ofSetColor(0, 0, 0);
+    int right = nextSolutionButton->getBounds().getRight();
+    int left = previousSolutionButton->getBounds().getLeft();
+    int center = left + (right - left)/2;
+    uiFont.drawString(mazeAlgorithmNames[solutionIndex], center - uiFont.stringWidth(mazeAlgorithmNames[solutionIndex])/2, nextSolutionButton->getBounds().getTop() - 30);
+
+    // Draw "Current Solution" above the solution name
+    string currentSolution = "Current Solution";
+    uiFont.drawString(currentSolution, center - uiFont.stringWidth(currentSolution)/2, nextSolutionButton->getBounds().getTop() - 60);
+
 
     // Draw the result if we finished the visualization
     if (finishedVisualization) {
@@ -83,7 +121,8 @@ void MazeState::draw() {
 
         // Draw the result text
         ofSetColor(0, 0, 0);
-        font.drawString(solved ? "Solved!" : "Not Solved!", ofGetWidth()/2 - font.stringWidth(solved ? "Solved!" : "Not Solved!")/2, ofGetHeight()/2);
+        string result = solved ? "Solved!" : "Not Solved!";
+        resultFont.drawString(result, ofGetWidth()/2 - resultFont.stringWidth(result)/2, ofGetHeight()/2);
 
     }
 
@@ -126,6 +165,8 @@ void MazeState::mousePressed(int x, int y, int button) {
     forwardButton->mousePressed(x, y);
     backwardButton->mousePressed(x, y);
     resetButton->mousePressed(x, y);
+    nextSolutionButton->mousePressed(x, y);
+    previousSolutionButton->mousePressed(x, y);
 
     if (forwardButton->wasPressed()) {
         advancePath();
@@ -136,6 +177,16 @@ void MazeState::mousePressed(int x, int y, int button) {
     }
 
     if (resetButton->wasPressed()) {
+        reset();
+    }
+
+    if (nextSolutionButton->wasPressed()) {
+        solutionIndex = (solutionIndex + 1) % solutions.size();
+        reset();
+    }
+
+    if (previousSolutionButton->wasPressed()) {
+        solutionIndex = (solutionIndex - 1 + solutions.size()) % solutions.size();
         reset();
     }
 }

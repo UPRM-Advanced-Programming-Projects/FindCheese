@@ -27,6 +27,10 @@ class Button{
             this->image = image;
         }
 
+        ofRectangle getBounds(){
+            return clickBox;
+        }
+
         void update(){
             if (clickCount > 0){
                 clickCount--;

@@ -10,13 +10,16 @@ class MazeState : public State{
     private:
 
         int selectedMaze = 0;
-        ofTrueTypeFont font;
+        ofTrueTypeFont resultFont;
+        ofTrueTypeFont uiFont;
 
         // Buttons
         Button* playButton;
         Button* forwardButton;
         Button* backwardButton;
         Button* resetButton;
+        Button* nextSolutionButton;
+        Button* previousSolutionButton;
 
         vector<Maze> mazes;
 
@@ -31,11 +34,15 @@ class MazeState : public State{
                                                 // If false, the exploration path will be visualized
                                                 // instead. If true, the solution path will be visualized
 
+        vector<string> mazeAlgorithmNames;
+
+
         // Maze Algorithms
         AbstractSolution* solution;             // The solution to use
         vector<AbstractSolution*> solutions;    // The solutions to choose from
         int solutionIndex = 0;                  // The index of the solution to use
 
+        // Functions
         void advancePath();
         void retreatPath();
 
