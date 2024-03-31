@@ -15,7 +15,7 @@ MazeState::MazeState(vector<Maze> mazes){
     int buttonWidth = 75;
     int buttonHeight = 75;
     int spacing = 10;
-    int x = border.x + border.width/2 - buttonWidth/2;
+    int x = border.x + border.width/2 - buttonWidth/2+100;
     int y = border.getBottom() + buttonHeight/2 + 10;
 
     playButtonImage.load("play.png");
