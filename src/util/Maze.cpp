@@ -64,7 +64,11 @@ void Maze::draw(){
         remyCheese.draw(border);
     }
     else{
-        remy.draw(border);
+        // If remy has lost, draw the lose image
+        if (lost)
+            remyDead.draw(border);
+        else
+            remy.draw(border);
 
         // Draw the goal
         border = ofRectangle(
@@ -163,6 +167,9 @@ void Maze::reset(){
         cellWidth = border.getWidth() / maze[0].size();
         cellHeight = border.getHeight() / maze.size();
     }
+
+    // Set the lost variable to false
+    lost = false;
 }
 
 bool Maze::isFree(int x, int y){

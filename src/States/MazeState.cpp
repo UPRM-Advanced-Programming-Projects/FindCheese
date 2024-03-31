@@ -347,7 +347,9 @@ void MazeState::advancePath() {
             }
 
         }
-    
+
+        // Set the lost variable in the maze
+        mazes[selectedMaze].setLost(!solved);
     }
 }
 

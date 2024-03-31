@@ -29,6 +29,9 @@ class Maze{
         int goalX, goalY;
         string fileName;
 
+        // this variable literally only exists so that i can draw remy's lose image
+        bool lost = false;
+
         // Images
         ofImage remy;
         ofImage remyCheese;
@@ -58,6 +61,7 @@ class Maze{
 
         void setCurrentPosition(int x, int y){ currentX = x; currentY = y; }
         void setCurrentPosition(pair<int, int> pos){ setCurrentPosition(pos.first, pos.second); }
-        
+
+        void setLost(bool lost){ this->lost = lost; }        
    
 };
