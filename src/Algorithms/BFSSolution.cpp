@@ -1,6 +1,6 @@
-#include "DFSSolution.h"
+#include "BFSSolution.h"
 
-bool DFSSolution::solveHelper(
+bool BFSSolution::solveHelper(
     int x,
     int y,
     Maze &maze,

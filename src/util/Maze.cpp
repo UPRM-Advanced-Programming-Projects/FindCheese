@@ -114,28 +114,36 @@ ofImage Maze::getMazePreview(){
 }
 
 void Maze::reset(){
+
+    // Clear the maze
+    maze.clear();
+
     // Load the maze from the .txt file
     ofBuffer buffer = ofBufferFromFile(fileName);
     if(buffer.size()){
         for(auto line : buffer.getLines()){                    
 
-            // convert String to MazeTile vector
             vector<MazeTile> row;
             for(auto tile : ofSplitString(line, " ")){
                 MazeTile tileType = (MazeTile)ofToInt(tile);
 
                 // Handle special tiles
+                // Special tiles are converted to free tiles
                 if (tileType == START){
+                    // Set the current position
                     currentX = row.size();
                     currentY = maze.size();
+
+                    // Set the starting position for when we need to reset
                     remyX = currentX;
                     remyY = currentY;
-                    tileType = FREE; // Start is a free tile
+                    tileType = FREE;
                 }
                 else if (tileType == GOAL){
+                    // Set the goal position
                     goalX = row.size();
                     goalY = maze.size();
-                    tileType = FREE; // Goal is a free tile
+                    tileType = FREE;
                 }
                 row.push_back(tileType);
             }
@@ -155,4 +163,14 @@ void Maze::reset(){
         cellWidth = border.getWidth() / maze[0].size();
         cellHeight = border.getHeight() / maze.size();
     }
+}
+
+bool Maze::isFree(int x, int y){
+    if (x < 0 || x >= maze[0].size() || y < 0 || y >= maze.size())
+        return false;
+    return maze[y][x] == FREE || maze[y][x] == GOAL;
+}
+
+bool Maze::isFree(pair<int, int> pos){
+    return isFree(pos.first, pos.second);
 }

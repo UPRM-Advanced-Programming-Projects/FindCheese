@@ -1,6 +1,6 @@
 #include "AbstractSolution.h"
 
-class DFSSolution : public AbstractSolution {
+class RecursionSolution : public AbstractSolution{
     public:
         bool solveHelper(
             int x,
