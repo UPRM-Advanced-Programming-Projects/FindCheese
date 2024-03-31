@@ -15,6 +15,7 @@ class State {
 private:
     bool finished = false; // Whether or not the state is finished and should be switched
     StateName nextState;   // The next state to switch to
+    bool muted = false;    // Whether or not the state is muted
 
 public:
 
@@ -36,4 +37,7 @@ public:
 
     StateName getNextState() { return nextState; }
     void setNextState(StateName nextState) { this->nextState = nextState; }
+
+    bool isMuted() { return muted; }
+    void setMuted(bool muted) { this->muted = muted; }
 };

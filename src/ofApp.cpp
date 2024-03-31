@@ -122,10 +122,12 @@ void ofApp::mousePressed(int x, int y, int button) {
         if (music.isPlaying()){
             music.stop();
             musicButton->setImage(muteIcon);
+            currentState->setMuted(true);
         }
         else{
             music.play();
             musicButton->setImage(musicIcon);
+            currentState->setMuted(false);
         }
     }
 }

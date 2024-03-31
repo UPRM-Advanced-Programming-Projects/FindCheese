@@ -4,6 +4,11 @@ MazeState::MazeState(vector<Maze> mazes){
     this->mazes = mazes;
     uiFont.load("font.otf", 18);
     resultFont.load("font.otf", 24);
+    statisticsFont.load("font.otf", 14);
+
+    // Load sounds
+    loseSound.load("lose.mp3");
+    winSound.load("win.mp3");
 
     ofRectangle border = this->mazes[0].getBorder();
 
@@ -121,6 +126,19 @@ void MazeState::draw() {
     string currentSolution = "Current Solution";
     uiFont.drawString(currentSolution, center - uiFont.stringWidth(currentSolution)/2, nextSolutionButton->getBounds().getTop() - 60);
 
+    int x = mazes[selectedMaze].getBorder().getRight() + 10;
+    // Draw "Statistics" below the next/previous solution buttons
+    string statistics = "Statistics";
+    uiFont.drawString(statistics, center - uiFont.stringWidth(statistics)/2, nextSolutionButton->getBounds().getBottom() + 30);
+
+    string currentStep = "Current Step: " + to_string(pathIndex);
+    statisticsFont.drawString(currentStep, x, nextSolutionButton->getBounds().getBottom() + 60);
+
+    string stepsSearched = "Steps Searched: " + to_string(pathToTake.size());
+    statisticsFont.drawString(stepsSearched, x, nextSolutionButton->getBounds().getBottom() + 90);
+
+    string solutionLength = "Solution Length: " + to_string(solutionPath.size());
+    statisticsFont.drawString(solutionLength, x, nextSolutionButton->getBounds().getBottom() + 120);
 
     // Draw the result if we finished the visualization
     if (finishedVisualization) {
@@ -140,6 +158,10 @@ void MazeState::draw() {
         string result = solved ? "POSSIBLE" : "IMPOSSIBLE";
         resultFont.drawString(result, ofGetWidth()/2 - resultFont.stringWidth(result)/2, ofGetHeight()/2);
 
+        // Draw the "Press R to Reset" text
+        ofSetColor(0,0,0);
+        string resetText = "Press R to Reset";
+        uiFont.drawString(resetText, ofGetWidth()/2 - uiFont.stringWidth(resetText)/2, ofGetHeight() - 50);
     }
 
 }
@@ -172,6 +194,10 @@ void MazeState::reset() {
         solutionPath, 
         pathTaken
     );
+
+    // Save the solution path, so that we can render the steps
+    // needed to solve the maze
+    this->solutionPath = solutionPath;
 
     // After this point, solutionPath should contain the path to take to solve the maze
     // and pathTaken should contain the path explored to solve the maze
@@ -229,8 +255,15 @@ void MazeState::keyPressed(int key) {
         retreatPath();
     }
 
-    if (key == ' ') {
+    if (key == 'r') {
         reset();
+    }
+
+    if (key == ' ') {
+        autoPlay = !autoPlay;
+        autoPlayCounter = 0;
+
+        playButton->setImage(autoPlay ? pauseButtonImage : playButtonImage);
     }
 }
 
@@ -265,6 +298,16 @@ void MazeState::advancePath() {
         // Update the maze
         mazes[selectedMaze] = currentMaze;
         
+    }
+
+    else{
+        // Play the win sound if we solved the maze
+        if (solved) {
+            winSound.play();
+        } else {
+            loseSound.play();
+        }
+    
     }
 }
 

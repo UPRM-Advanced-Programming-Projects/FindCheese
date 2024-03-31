@@ -12,6 +12,7 @@ class MazeState : public State{
         int selectedMaze = 0;
         ofTrueTypeFont resultFont;
         ofTrueTypeFont uiFont;
+        ofTrueTypeFont statisticsFont;
 
         // Images so that we can toggle between play and pause
         ofImage playButtonImage;
@@ -25,6 +26,10 @@ class MazeState : public State{
         Button* nextSolutionButton;
         Button* previousSolutionButton;
 
+        // Sounds
+        ofSoundPlayer loseSound;
+        ofSoundPlayer winSound;
+
         vector<Maze> mazes;
 
         // Variables for the end; once we reach the end of pathToTake
@@ -33,6 +38,7 @@ class MazeState : public State{
 
         // Maze Visualization Variables
         vector<pair<int, int>> pathToTake;      // The path to take to solve the maze
+        vector<pair<int, int>> solutionPath;    // The path to take to solve the maze
         int pathIndex = 0;                      // The index of the path to take
         bool visualizeSolution = false;         // Whether or not to visualize the solution
                                                 // If false, the exploration path will be visualized
