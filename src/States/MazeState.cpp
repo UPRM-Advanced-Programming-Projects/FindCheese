@@ -110,6 +110,17 @@ void MazeState::update() {
             autoPlayCounter = 0;
         }
     }
+
+    if (finishedVisualization){
+        // i lied. it's 2 seconds instead
+        if (secondDelay++ >= 120){
+            transparency += 5;
+            if (transparency >= 255){
+                transparency = 255;
+            }
+        }
+    
+    }
 }
 
 void MazeState::draw() {
@@ -170,7 +181,7 @@ void MazeState::draw() {
         ofSetColor(0, 0, 0);
         uiFont.drawString(topText, ofGetWidth()/2 - uiFont.stringWidth(topText)/2, 50);
 
-        ofSetColor(solved ? ofColor::green : ofColor::red);
+        ofSetColor(solved ? ofColor::green : ofColor::red, transparency);
         string result = solved ? "POSSIBLE" : "IMPOSSIBLE";
         resultFont.drawString(result, ofGetWidth()/2 - resultFont.stringWidth(result)/2, ofGetHeight()/2);
 
@@ -190,6 +201,8 @@ void MazeState::reset() {
     finishedVisualization = false;
     autoPlay = false;
     autoPlayCounter = 0;
+    transparency = 0;
+    secondDelay = 0;
 
     // Update play button image
     playButton->setImage(autoPlay ? pauseButtonImage : playButtonImage);

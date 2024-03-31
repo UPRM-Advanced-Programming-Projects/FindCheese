@@ -36,6 +36,8 @@ class MazeState : public State{
         // Variables for the end; once we reach the end of pathToTake
         bool solved = false;                    // Whether or not we reached the goal of the maze
         bool finishedVisualization = true;     // True when pathIndex == pathToTake.size()
+        int secondDelay = 0;                    // A counter that goes to 60
+        int transparency = 0;                   // The transparency of the result screen
 
         // Maze Visualization Variables
         vector<pair<int, int>> pathToTake;      // The path to visualize
