@@ -114,14 +114,18 @@ void MazeState::draw() {
     if (finishedVisualization) {
         // Create a slightly transparent rectangle
         // Green if solved, red if not
-        ofSetColor(solved ? ofColor(0,100,0) : ofColor(100,0,0), 150);
+        ofSetColor(ofColor::white, 150);
 
         ofFill();
         ofDrawRectangle(0, 0, ofGetWidth(), ofGetHeight());
 
         // Draw the result text
+        string topText = "This Maze Is...";
         ofSetColor(0, 0, 0);
-        string result = solved ? "Solved!" : "Not Solved!";
+        uiFont.drawString(topText, ofGetWidth()/2 - uiFont.stringWidth(topText)/2, 50);
+
+        ofSetColor(solved ? ofColor::green : ofColor::red);
+        string result = solved ? "POSSIBLE" : "IMPOSSIBLE";
         resultFont.drawString(result, ofGetWidth()/2 - resultFont.stringWidth(result)/2, ofGetHeight()/2);
 
     }
