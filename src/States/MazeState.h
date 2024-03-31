@@ -25,6 +25,7 @@ class MazeState : public State{
         Button* resetButton;
         Button* nextSolutionButton;
         Button* previousSolutionButton;
+        Button* seeSolutionButton;
 
         // Sounds
         ofSoundPlayer loseSound;
@@ -37,7 +38,8 @@ class MazeState : public State{
         bool finishedVisualization = true;     // True when pathIndex == pathToTake.size()
 
         // Maze Visualization Variables
-        vector<pair<int, int>> pathToTake;      // The path to take to solve the maze
+        vector<pair<int, int>> pathToTake;      // The path to visualize
+        vector<pair<int, int>> explorationPath; // The path taken to explore the maze   
         vector<pair<int, int>> solutionPath;    // The path to take to solve the maze
         int pathIndex = 0;                      // The index of the path to take
         bool visualizeSolution = false;         // Whether or not to visualize the solution

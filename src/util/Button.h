@@ -69,6 +69,10 @@ class Button{
             this->image = image;
         }
 
+        void setText(string text){
+            this->text = text;
+        }
+
         // Constructor
         // wasPressed()
         // onClick()

@@ -71,6 +71,14 @@ MazeState::MazeState(vector<Maze> mazes){
         ofImage("backward.png")
     );
 
+    this->seeSolutionButton = new Button(
+        ofGetWidth() - (ofGetWidth() - mazes[0].getBorder().getRight()) + 110,
+        nextSolutionButton->getBounds().getBottom() + 240,
+        180,
+        50,
+        visualizeSolution ? "See Exploration" : "See Solution"
+    );
+
     // Create the solutions
     // NOTE: The order that the solutions are added here will be the order
     // that they will be represented as internally
@@ -94,6 +102,7 @@ void MazeState::update() {
     resetButton->update();
     nextSolutionButton->update();
     previousSolutionButton->update();
+    seeSolutionButton->update();
 
     if (autoPlay && !finishedVisualization) {
         if (autoPlayCounter++ >= AUTO_PLAY_DELAY) {
@@ -113,6 +122,7 @@ void MazeState::draw() {
     resetButton->draw();
     nextSolutionButton->draw();
     previousSolutionButton->draw();
+    seeSolutionButton->draw();
 
 
     // Draw the solution name centered above both the next/previous solution buttons
@@ -134,11 +144,17 @@ void MazeState::draw() {
     string currentStep = "Current Step: " + to_string(pathIndex);
     statisticsFont.drawString(currentStep, x, nextSolutionButton->getBounds().getBottom() + 60);
 
-    string stepsSearched = "Steps Searched: " + to_string(pathToTake.size());
+    string stepsSearched = "Steps Searched: " + to_string(explorationPath.size());
     statisticsFont.drawString(stepsSearched, x, nextSolutionButton->getBounds().getBottom() + 90);
 
     string solutionLength = "Solution Length: " + to_string(solutionPath.size());
     statisticsFont.drawString(solutionLength, x, nextSolutionButton->getBounds().getBottom() + 120);
+
+    string currentlyViewing = "Currently Viewing";
+    uiFont.drawString(currentlyViewing, center - uiFont.stringWidth(currentlyViewing)/2, nextSolutionButton->getBounds().getBottom() + 170);
+
+    string viewing = visualizeSolution ? "Solution" : "Exploration";
+    uiFont.drawString(viewing, center - uiFont.stringWidth(viewing)/2, nextSolutionButton->getBounds().getBottom() + 200);
 
     // Draw the result if we finished the visualization
     if (finishedVisualization) {
@@ -162,6 +178,9 @@ void MazeState::draw() {
         ofSetColor(0,0,0);
         string resetText = "Press R to Reset";
         uiFont.drawString(resetText, ofGetWidth()/2 - uiFont.stringWidth(resetText)/2, ofGetHeight() - 50);
+
+        string goBackText = "Press BACKSPACE to go back";
+        uiFont.drawString(goBackText, ofGetWidth()/2 - uiFont.stringWidth(goBackText)/2, ofGetHeight() - 20);
     }
 
 }
@@ -195,9 +214,10 @@ void MazeState::reset() {
         pathTaken
     );
 
-    // Save the solution path, so that we can render the steps
-    // needed to solve the maze
+    // Save the paths, so that we can render the steps
+    // taken for each
     this->solutionPath = solutionPath;
+    this->explorationPath = pathTaken;
 
     // After this point, solutionPath should contain the path to take to solve the maze
     // and pathTaken should contain the path explored to solve the maze
@@ -208,12 +228,15 @@ void MazeState::reset() {
 
 void MazeState::mousePressed(int x, int y, int button) {
 
-    playButton->mousePressed(x, y);
-    forwardButton->mousePressed(x, y);
-    backwardButton->mousePressed(x, y);
-    resetButton->mousePressed(x, y);
-    nextSolutionButton->mousePressed(x, y);
-    previousSolutionButton->mousePressed(x, y);
+    if (!finishedVisualization) {
+        playButton->mousePressed(x, y);
+        forwardButton->mousePressed(x, y);
+        backwardButton->mousePressed(x, y);
+        resetButton->mousePressed(x, y);
+        nextSolutionButton->mousePressed(x, y);
+        previousSolutionButton->mousePressed(x, y);
+        seeSolutionButton->mousePressed(x, y);
+    }
 
     if (forwardButton->wasPressed()) {
         advancePath();
@@ -243,9 +266,26 @@ void MazeState::mousePressed(int x, int y, int button) {
 
         playButton->setImage(autoPlay ? pauseButtonImage : playButtonImage);
     }
+
+    if (seeSolutionButton->wasPressed()) {
+        visualizeSolution = !visualizeSolution;
+
+        // Change the text of the button 
+        seeSolutionButton->setText(visualizeSolution ? "See Exploration" : "See Solution");
+
+        reset();
+    }
 }
 
 void MazeState::keyPressed(int key) {
+
+    if (key == 'r') {
+        reset();
+    }
+
+    if (finishedVisualization) {
+        return;
+    }
 
     if (key == OF_KEY_RIGHT) {
         advancePath();
@@ -255,9 +295,6 @@ void MazeState::keyPressed(int key) {
         retreatPath();
     }
 
-    if (key == 'r') {
-        reset();
-    }
 
     if (key == ' ') {
         autoPlay = !autoPlay;
@@ -301,11 +338,14 @@ void MazeState::advancePath() {
     }
 
     else{
-        // Play the win sound if we solved the maze
-        if (solved) {
-            winSound.play();
-        } else {
-            loseSound.play();
+        if (!this->isMuted()){
+            // Play the win sound if we solved the maze
+            if (solved) {
+                winSound.play();
+            } else {
+                loseSound.play();
+            }
+
         }
     
     }
