@@ -9,6 +9,7 @@ void MazeSelectionState::update(){
 
 void MazeSelectionState::draw(){
 
+    ofSetColor(ofColor::black);
     // Write "Select a maze" centered at the top of the screen
     font.drawString("Select a maze", ofGetWidth()/2 - font.stringWidth("Select a maze")/2, 30);
 
