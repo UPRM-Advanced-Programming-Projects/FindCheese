@@ -3,7 +3,7 @@
 MazeState::MazeState(vector<Maze> mazes){
     this->mazes = mazes;
     uiFont.load("font.otf", 18);
-    resultFont.load("font.otf", 24);
+    resultFont.load("font.otf", 36);
     statisticsFont.load("font.otf", 14);
 
     // Load sounds
