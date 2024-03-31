@@ -25,7 +25,7 @@ class MazeState : public State{
 
         // Variables for the end; once we reach the end of pathToTake
         bool solved = false;                    // Whether or not we reached the goal of the maze
-        bool finishedVisualization = false;     // True when pathIndex == pathToTake.size()
+        bool finishedVisualization = true;     // True when pathIndex == pathToTake.size()
 
         // Maze Visualization Variables
         vector<pair<int, int>> pathToTake;      // The path to take to solve the maze

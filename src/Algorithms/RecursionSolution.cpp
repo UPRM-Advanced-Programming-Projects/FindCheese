@@ -22,10 +22,10 @@ bool RecursionSolution::solveHelper(
 
     // Recursive case: Try all possible moves
     vector<pair<int, int>> possibleMoves = {
-        make_pair(x, y-1),  // Up
-        make_pair(x, y+1),  // Down
+        make_pair(x+1, y),  // Right
         make_pair(x-1, y),  // Left
-        make_pair(x+1, y)  // Right
+        make_pair(x, y+1),  // Down
+        make_pair(x, y-1)   // Up
     };
 
     for (auto move : possibleMoves) {
