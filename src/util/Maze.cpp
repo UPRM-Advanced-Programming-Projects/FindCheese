@@ -48,33 +48,33 @@ void Maze::draw(){
                 cellHeight);
 
             ofDrawRectangle(border);
-            if (maze[i][j] == START){
-                ofSetColor(255,255,255);
-                remy.draw(border);
-            }
-            else if (maze[i][j] == GOAL){
-                ofSetColor(255,255,255);
-                cheese.draw(border);
-            }
         }
     }
-
     // Draw remy at the current position
     ofRectangle border(
         this->border.getLeft() + currentX * cellWidth, 
         this->border.getTop() + currentY * cellHeight, 
         cellWidth, 
         cellHeight);
-    ofSetColor(255,255,255);
-    remy.draw(border);
 
-    // Draw the goal
-    border = ofRectangle(
-        this->border.getLeft() + goalX * cellWidth, 
-        this->border.getTop() + goalY * cellHeight, 
-        cellWidth, 
-        cellHeight);
-    cheese.draw(border);
+    ofSetColor(255,255,255);
+
+    // If remy has reached the goal, draw the win image
+    if (currentX == goalX && currentY == goalY){
+        remyCheese.draw(border);
+    }
+    else{
+        remy.draw(border);
+
+        // Draw the goal
+        border = ofRectangle(
+            this->border.getLeft() + goalX * cellWidth, 
+            this->border.getTop() + goalY * cellHeight, 
+            cellWidth, 
+            cellHeight);
+        cheese.draw(border);
+    }
+
 }
 
 ofImage Maze::getMazePreview(){
