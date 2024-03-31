@@ -13,6 +13,10 @@ class MazeState : public State{
         ofTrueTypeFont resultFont;
         ofTrueTypeFont uiFont;
 
+        // Images so that we can toggle between play and pause
+        ofImage playButtonImage;
+        ofImage pauseButtonImage;
+
         // Buttons
         Button* playButton;
         Button* forwardButton;
@@ -33,6 +37,9 @@ class MazeState : public State{
         bool visualizeSolution = false;         // Whether or not to visualize the solution
                                                 // If false, the exploration path will be visualized
                                                 // instead. If true, the solution path will be visualized
+        bool autoPlay;                          // Whether or not to automatically play the visualization
+        const int AUTO_PLAY_DELAY = 20;         // The delay between each step in the auto play
+        int autoPlayCounter;                    // The counter for the auto play delay
 
         vector<string> mazeAlgorithmNames;
 

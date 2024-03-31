@@ -13,12 +13,17 @@ MazeState::MazeState(vector<Maze> mazes){
     int x = border.x + border.width/2 - buttonWidth/2;
     int y = border.getBottom() + buttonHeight/2 + 10;
 
+    playButtonImage.load("play.png");
+    pauseButtonImage.load("pause.png");
+
     this->playButton = new Button(
         x,
         y,
         buttonWidth,
         buttonHeight,
-        ofImage("play.png")
+
+        // If autoPlay is true, then we want to display the pause button
+        autoPlay ? pauseButtonImage : playButtonImage
     );
 
     this->forwardButton = new Button(
@@ -84,6 +89,13 @@ void MazeState::update() {
     resetButton->update();
     nextSolutionButton->update();
     previousSolutionButton->update();
+
+    if (autoPlay && !finishedVisualization) {
+        if (autoPlayCounter++ >= AUTO_PLAY_DELAY) {
+            advancePath();
+            autoPlayCounter = 0;
+        }
+    }
 }
 
 void MazeState::draw() {
@@ -135,6 +147,11 @@ void MazeState::draw() {
 void MazeState::reset() {
     pathIndex = 0;
     finishedVisualization = false;
+    autoPlay = false;
+    autoPlayCounter = 0;
+
+    // Update play button image
+    playButton->setImage(autoPlay ? pauseButtonImage : playButtonImage);
     
     // Reset all the mazes
     for (int i = 0; i < mazes.size(); i++) {
@@ -192,6 +209,13 @@ void MazeState::mousePressed(int x, int y, int button) {
     if (previousSolutionButton->wasPressed()) {
         solutionIndex = (solutionIndex - 1 + solutions.size()) % solutions.size();
         reset();
+    }
+
+    if (playButton->wasPressed()) {
+        autoPlay = !autoPlay;
+        autoPlayCounter = 0;
+
+        playButton->setImage(autoPlay ? pauseButtonImage : playButtonImage);
     }
 }
 
